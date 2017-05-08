@@ -1,0 +1,12 @@
+<div>
+  <input type="text" [(ngModel)]="searchTerm" (ngModelChange)="searchforTerm($event)"/>
+
+  <div *ngIf="canShowGames"  class="gs_found-games">
+    <h2>Found Games:</h2>
+    <ul>
+      <li *ngFor="let game of games" [routerLink]="['/game/detail', game.id]" >
+        <img [src]="game.coverUrl" />
+        <span [innerHTML]="game.name | highlight: searchTerm"></span>
+      </li>
+    </ul>
+</div>
