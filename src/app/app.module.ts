@@ -4,21 +4,23 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
-import { SearchBarComponent } from './search/search-bar/search-bar.component';
+import { TopBarComponent } from './top-bar/top-bar.component';
+import {AppRoutingModule} from "./app-routing.module";
+import {SearchModule} from "./search/search.module";
 import {HighlightPipe} from './pipes/highlight.pipe';
-import { TopBarComponent } from './top-bar/top-bar.component'
 
 @NgModule({
   declarations: [
     AppComponent,
-    SearchBarComponent,
-    HighlightPipe,
-    TopBarComponent
+    TopBarComponent,
+    HighlightPipe
   ],
   imports: [
     BrowserModule,
     FormsModule,
-    HttpModule
+    HttpModule,
+    AppRoutingModule,
+    SearchModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
