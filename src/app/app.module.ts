@@ -5,15 +5,13 @@ import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
 import { TopBarComponent } from './top-bar/top-bar.component';
-import {AppRoutingModule} from "./app-routing.module";
-import {SearchModule} from "./search/search.module";
-import {HighlightPipe} from './pipes/highlight.pipe';
+import {AppRoutingModule} from './app-routing.module';
+import {SearchModule} from './search/search.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    TopBarComponent,
-    HighlightPipe
+    TopBarComponent
   ],
   imports: [
     BrowserModule,

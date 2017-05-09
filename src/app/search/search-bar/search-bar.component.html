@@ -1,6 +1,7 @@
 <div>
-  <input type="text" [(ngModel)]="searchTerm" (ngModelChange)="searchforTerm($event)"/>
-
+  <div class="pure-form">
+    <input type="text" [(ngModel)]="searchTerm" (ngModelChange)="searchforTerm($event)"/>
+  </div>
   <div *ngIf="canShowGames"  class="gs_found-games">
     <h2>Found Games:</h2>
     <ul>
