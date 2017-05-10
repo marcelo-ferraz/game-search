@@ -4,7 +4,7 @@ import 'rxjs/add/operator/filter';
 import { Injectable } from '@angular/core';
 import {Headers, Http, Response, ResponseContentType} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
-import {SimpleAutocompleteModel} from '../models/SimpleAutocompleteModel';
+import {IdNamePair} from '../models/IdNamePair';
 
 const apiKey = 'i7AiUJEiaQmshtyp0mPWH55ECwYZp139koAjsn3T8FrS0u4FgX';
 const DEFAULT_LIMIT = 10;
@@ -19,11 +19,11 @@ export class IgdbSearchService {
     this._headers.set('Accept', 'application/json');
   }
 
-  private concatFieldNames (...fields: string[]) {
+  protected concatFieldNames (...fields: string[]) {
     return fields.join(`%2C`);
   }
 
-  private get(endpoint: string): Observable<Response> {
+  protected get<T>(endpoint: string): Observable<T> {
     return this.http.get(
       `https://igdbcom-internet-game-database-v1.p.mashape.com/${endpoint}`,
       {
@@ -34,26 +34,31 @@ export class IgdbSearchService {
       .map(response => { return (<any>response)._body; });
   }
 
-  private convertToAutoComplete (response: any): SimpleAutocompleteModel {
-    const model = new SimpleAutocompleteModel();
-
-    model.id = response.id;
-    model.name = response.name;
-    model.coverUrl = response.cover ? response.cover.url : '';
-
-    return model;
-  }
-
   public search4Games (term: string, limit?: number, offset?: number) {
     return this.get(`games/?search=${term}&limit=${limit || DEFAULT_LIMIT}&offset=${offset || 0}`);
   }
+}
 
-  public search4Games2AutoComplete (term: string, limit?: number, offset?: number): Observable<SimpleAutocompleteModel[]> {
-    const url = `games/?search=${term}&limit=${limit || DEFAULT_LIMIT}&offset=${offset || 0}&fields=${this.concatFieldNames('name', 'cover.url')}`;
+@Injectable()
+export class IgdbQuickSearchService extends IgdbSearchService {
+  constructor(
+    http: Http) {
+    super(http);
+  }
 
-    return this.get(url)
-      .map(games => {
-        return (<any>games).map(this.convertToAutoComplete);
-      });
+  protected get<T>(partialUrl: string): Observable<T> {
+    return super.get(`${partialUrl}&limit=${DEFAULT_LIMIT}&fields=name`);
+  }
+
+  public search4Games2AutoComplete (term: string): Observable<IdNamePair[]> {
+    return this.get(`games/?search=${term}`);
+  }
+
+  public search4Companies2AutoComplete (term: string): Observable<IdNamePair[]> {
+    return this.get(`companies/?search=${term}`);
+  }
+
+  public search4Franchises2AutoComplete (term: string): Observable<IdNamePair[]> {
+    return this.get(`franchises/?search=${term}`);
   }
 }

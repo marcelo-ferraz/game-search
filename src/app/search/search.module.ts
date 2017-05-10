@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {SearchBarComponent} from './search-bar/search-bar.component';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { SearchHomeComponent } from './search-home/search-home.component';
 import {RouterModule} from '@angular/router';
 import {SharedFeaturesModule} from '../shared-features.module';
@@ -11,7 +11,8 @@ import {SharedFeaturesModule} from '../shared-features.module';
     CommonModule,
     FormsModule,
     RouterModule,
-    SharedFeaturesModule
+    SharedFeaturesModule,
+    ReactiveFormsModule
   ],
   declarations: [
     SearchBarComponent,
