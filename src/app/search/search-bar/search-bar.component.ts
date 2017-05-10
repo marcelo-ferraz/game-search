@@ -38,15 +38,15 @@ export class SearchBarComponent implements OnInit {
         console.log('value:' + val);
         return this.igdbSearchService.search4Games2AutoComplete(val);
       });
-    //
-    // this.companies$ = input$.switchMap(
-    //   (val, i) => {
-    //     return this.igdbSearchService.search4Companies2AutoComplete(val);
-    //   });
-    //
-    // this.franchises$ = input$.switchMap(
-    //   (val, i) => {
-    //     return this.igdbSearchService.search4Franchises2AutoComplete(val);
-    //   });
+
+    this.companies$ = input$.switchMap(
+      (val, i) => {
+        return this.igdbSearchService.search4Companies2AutoComplete(val);
+      });
+
+    this.franchises$ = input$.switchMap(
+      (val, i) => {
+        return this.igdbSearchService.search4Franchises2AutoComplete(val);
+      });
   }
 }
