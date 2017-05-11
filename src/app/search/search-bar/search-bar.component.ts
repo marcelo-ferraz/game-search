@@ -26,27 +26,41 @@ export class SearchBarComponent implements OnInit {
      this.searchInput = new FormControl();
   }
 
+  private t = 0;
+  private g = 0;
+  private c = 0;
+  private f = 0;
+
   ngOnInit() {
     const input$ = this
       .searchInput
       .valueChanges
-      .debounceTime(500)
+      .distinctUntilChanged((val1, val2) => val1 === val2)
+      .debounceTime(200)
       .filter(v => { return v.length > 2; });
 
-    this.games$ = input$.switchMap(
+    this.games$ = input$.distinctUntilChanged().switchMap(
       (val, i) => {
-        console.log('value:' + val);
-        return this.igdbSearchService.search4Games2AutoComplete(val);
+        console.log(`${this.t}; games$ called. Value: ${val}, f: ${this.g}`);
+        this.g++;
+        this.t++;
+        return Observable.of([{ name: name, id: 1 }]); //this.igdbSearchService.search4Games2AutoComplete(val);
       });
 
-    this.companies$ = input$.switchMap(
+    this.companies$ = input$.distinctUntilChanged().switchMap(
       (val, i) => {
-        return this.igdbSearchService.search4Companies2AutoComplete(val);
+        console.log(`${this.t}; companies$ called. Value: ${val}, f: ${this.c}`);
+        this.c++;
+        this.t++;
+        return Observable.of([{ name: name, id: 1 }]); //return this.igdbSearchService.search4Companies2AutoComplete(val);
       });
 
-    this.franchises$ = input$.switchMap(
+    this.franchises$ = input$.distinctUntilChanged().switchMap(
       (val, i) => {
-        return this.igdbSearchService.search4Franchises2AutoComplete(val);
+        console.log(`${this.t}; franchises$ called. Value: ${val}, f: ${this.f}`);
+        this.f++;
+        this.t++;
+        return Observable.of([{ name: name, id: 1 }]); //return this.igdbSearchService.search4Franchises2AutoComplete(val);
       });
   }
 }
