@@ -17,10 +17,15 @@ export class SearchBarComponent implements OnInit {
 
   public searchInput;
 
-  @Input()
+  public games: IdNamePair[];
+  public companies: IdNamePair[];
+  public franchises: IdNamePair[];
+
   public games$: Observable<IdNamePair[]>;
   public companies$: Observable<IdNamePair[]>;
   public franchises$: Observable<IdNamePair[]>;
+
+  public quickSearch$: Observable<IdNamePair[]>;
 
   constructor(private igdbSearchService: IgdbQuickSearchService) {
      this.searchInput = new FormControl();
@@ -39,28 +44,28 @@ export class SearchBarComponent implements OnInit {
       .debounceTime(200)
       .filter(v => { return v.length > 2; });
 
-    this.games$ = input$.distinctUntilChanged().switchMap(
+    this.games$ = input$.switchMap(
       (val, i) => {
         console.log(`${this.t}; games$ called. Value: ${val}, f: ${this.g}`);
         this.g++;
         this.t++;
-        return Observable.of([{ name: name, id: 1 }]); //this.igdbSearchService.search4Games2AutoComplete(val);
-      });
+        return this.igdbSearchService.search4Games2AutoComplete(val);
+      }).share();
 
-    this.companies$ = input$.distinctUntilChanged().switchMap(
+    this.companies$ = input$.switchMap(
       (val, i) => {
         console.log(`${this.t}; companies$ called. Value: ${val}, f: ${this.c}`);
         this.c++;
         this.t++;
-        return Observable.of([{ name: name, id: 1 }]); //return this.igdbSearchService.search4Companies2AutoComplete(val);
-      });
+        return this.igdbSearchService.search4Companies2AutoComplete(val);
+      }).share();
 
-    this.franchises$ = input$.distinctUntilChanged().switchMap(
+    this.franchises$ = input$.switchMap(
       (val, i) => {
         console.log(`${this.t}; franchises$ called. Value: ${val}, f: ${this.f}`);
         this.f++;
         this.t++;
-        return Observable.of([{ name: name, id: 1 }]); //return this.igdbSearchService.search4Franchises2AutoComplete(val);
-      });
+        return this.igdbSearchService.search4Franchises2AutoComplete(val);
+      }).share();
   }
 }

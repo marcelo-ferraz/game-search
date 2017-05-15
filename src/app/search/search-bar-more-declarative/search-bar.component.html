@@ -3,35 +3,36 @@
     <input type="text" [formControl]="searchInput" />
   </div>
 
-  <div [hidden]="!(games$ | async)?.length && !(companies$ | async)?.length && !(franchises$ | async)?.length" class="row card">
+  <div [ngClass]="['col s12', 'row', 'card']" style="margin-top: -2.5rem;">
+  <!--<div [ngClass]="['col s12', 'row', 'card', 'scale-transition', hideResultsPanel? 'scale-out' : 'scale-in']">-->
 
-    <div [hidden]="!(games$ | async)?.length" class="col s-4">
+    <div [hidden]="!games?.length" class="col s4">
       <h6>Found Games:</h6>
       <blockquote>
         <ul>
-          <li *ngFor="let game of games$ | async" [routerLink]="['/game/', game.id]" >
+          <li *ngFor="let game of games" [routerLink]="['/game/', game.id]" class="truncate">
             <span [innerHTML]="game.name"></span>
           </li>
         </ul>
       </blockquote>
     </div>
 
-    <div [hidden]="!(companies$ | async)?.length" class="col s-4">
+    <div [hidden]="!companies?.length" class="col s4">
       <h6>Found Categories:</h6>
       <blockquote>
         <ul>
-          <li *ngFor="let company of companies$ | async" [routerLink]="['/company', company.id]" >
+          <li *ngFor="let company of companies" [routerLink]="['/company', company.id]" class="truncate" >
             <span [innerHTML]="company.name | highlight: searchInput.value"></span>
           </li>
         </ul>
       </blockquote>
     </div>
 
-    <div  [hidden]="!(franchises$ | async)?.length" class="col s-4">
+    <div  [hidden]="!franchises?.length" class="col s4">
       <h6>Found Frachises:</h6>
       <blockquote>
         <ul>
-          <li *ngFor="let franchise of franchises$ | async" [routerLink]="['/franchise', franchise.id]" >
+          <li *ngFor="let franchise of franchises" [routerLink]="['/franchise', franchise.id]" class="truncate">
             <span [innerHTML]="franchise.name | highlight: searchInput.value"></span>
           </li>
         </ul>

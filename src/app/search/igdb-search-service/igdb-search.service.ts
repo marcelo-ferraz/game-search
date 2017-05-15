@@ -2,7 +2,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/filter';
 
 import { Injectable } from '@angular/core';
-import {Headers, Http, Response, ResponseContentType} from '@angular/http';
+import {Headers, Http, ResponseContentType} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import {IdNamePair} from '../models/IdNamePair';
 
@@ -30,8 +30,8 @@ export class IgdbSearchService {
         headers: this._headers,
         responseType: ResponseContentType.Json
       })
-      .filter(response => { return (response.status === 200 && response.ok); })
-      .map(response => { return (<any>response)._body; });
+      .filter(response => (response.status === 200 && response.ok))
+      .map(response => (<any>response)._body);
   }
 
   public search4Games (term: string, limit?: number, offset?: number) {
