@@ -1,0 +1,14 @@
+<div [hidden]="!collection?.length" class="col s4">
+  <h6>Found Games:</h6>
+  <blockquote>
+    <ul>
+      <li *ngFor="let item of collection" [routerLink]="[link, item.id]" class="truncate">
+        <span [innerHTML]="item.name"></span>
+      </li>
+    </ul>
+  </blockquote>
+</div>
+
+<div [hidden]="collection" class="col s4">
+  <span>loading...</span>
+</div>

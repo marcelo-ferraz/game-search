@@ -1,6 +1,6 @@
 import { GamesSearchAppPage } from './app.po';
 
-describe('games-search-app App', function() {
+describe('games-search-bar-app App', function() {
   let page: GamesSearchAppPage;
 
   beforeEach(() => {
