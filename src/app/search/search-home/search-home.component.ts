@@ -12,8 +12,4 @@ export class SearchHomeComponent implements OnInit {
   ngOnInit() {
   }
 
-
-  public search (event) {
-    debugger;
-  }
 }

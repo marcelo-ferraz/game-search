@@ -1,0 +1,41 @@
+<div>
+  <div class="row">
+    <input type="text" [formControl]="searchInput" />
+  </div>
+
+  <div [hidden]="!(games$ | async)?.length && !(companies$ | async)?.length && !(franchises$ | async)?.length" class="row card">
+
+    <div [hidden]="!(games$ | async)?.length" class="col s-4">
+      <h6>Found Games:</h6>
+      <blockquote>
+        <ul>
+          <li *ngFor="let game of games$ | async" [routerLink]="['/game/', game.id]" >
+            <span [innerHTML]="game.name"></span>
+          </li>
+        </ul>
+      </blockquote>
+    </div>
+
+    <div [hidden]="!(companies$ | async)?.length" class="col s-4">
+      <h6>Found Categories:</h6>
+      <blockquote>
+        <ul>
+          <li *ngFor="let company of companies$ | async" [routerLink]="['/company', company.id]" >
+            <span [innerHTML]="company.name | highlight: searchInput.value"></span>
+          </li>
+        </ul>
+      </blockquote>
+    </div>
+
+    <div  [hidden]="!(franchises$ | async)?.length" class="col s-4">
+      <h6>Found Frachises:</h6>
+      <blockquote>
+        <ul>
+          <li *ngFor="let franchise of franchises$ | async" [routerLink]="['/franchise', franchise.id]" >
+            <span [innerHTML]="franchise.name | highlight: searchInput.value"></span>
+          </li>
+        </ul>
+      </blockquote>
+    </div>
+  </div>
+</div>

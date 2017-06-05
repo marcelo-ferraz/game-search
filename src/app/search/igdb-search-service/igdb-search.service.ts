@@ -4,11 +4,10 @@ import 'rxjs/add/operator/filter';
 import { Injectable } from '@angular/core';
 import {Headers, Http, ResponseContentType} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
+import {IdNamePair} from '../models/IdNamePair';
 
 const apiKey = 'i7AiUJEiaQmshtyp0mPWH55ECwYZp139koAjsn3T8FrS0u4FgX';
-export const DEFAULT_LIMIT = 10;
-
-// documentation: https://igdb.github.io/api/endpoints/company/
+const DEFAULT_LIMIT = 10;
 @Injectable()
 export class IgdbSearchService {
   private _headers: Headers;
@@ -37,5 +36,29 @@ export class IgdbSearchService {
 
   public search4Games (term: string, limit?: number, offset?: number) {
     return this.get(`games/?search=${term}&limit=${limit || DEFAULT_LIMIT}&offset=${offset || 0}`);
+  }
+}
+
+@Injectable()
+export class IgdbQuickSearchService extends IgdbSearchService {
+  constructor(
+    http: Http) {
+    super(http);
+  }
+
+  protected get<T>(partialUrl: string): Observable<T> {
+    return super.get(`${partialUrl}&limit=${DEFAULT_LIMIT}&fields=name`);
+  }
+
+  public search4Games2AutoComplete (term: string): Observable<IdNamePair[]> {
+    return this.get(`games/?search=${term}`);
+  }
+
+  public search4Companies2AutoComplete (term: string): Observable<IdNamePair[]> {
+    return this.get(`companies/?search=${term}`);
+  }
+
+  public search4Franchises2AutoComplete (term: string): Observable<IdNamePair[]> {
+    return this.get(`franchises/?search=${term}`);
   }
 }
