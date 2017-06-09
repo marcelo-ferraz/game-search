@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import {DEFAULT_LIMIT, IgdbSearchService} from '../../igdb-search-service/igdb-search.service';
+import {DEFAULT_LIMIT, IgdbBaseSearchService} from '../../igdb-base-search-service/igdb-base-search.service';
 import {Http} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import {IdNamePair} from '../../models/IdNamePair';
 
 @Injectable()
-export class IgdbQuickSearchService extends IgdbSearchService {
+export class IgdbQuickSearchService extends IgdbBaseSearchService {
   constructor(
     http: Http) {
     super(http);

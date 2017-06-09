@@ -13,6 +13,9 @@ export class SearchBarPanelComponent implements OnInit {
   @Input()
   public link: string;
 
+  @Input()
+  public title: string;
+
   constructor() { }
 
   ngOnInit() {

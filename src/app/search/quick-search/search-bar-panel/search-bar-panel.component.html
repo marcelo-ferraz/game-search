@@ -1,5 +1,5 @@
 <div [hidden]="!collection?.length" class="col s4">
-  <h6>Found Games:</h6>
+  <h6>{{title}}:</h6>
   <blockquote>
     <ul>
       <li *ngFor="let item of collection" [routerLink]="[link, item.id]" class="truncate">

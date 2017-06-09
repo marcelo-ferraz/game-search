@@ -10,11 +10,11 @@ export const DEFAULT_LIMIT = 10;
 
 // documentation: https://igdb.github.io/api/endpoints/company/
 @Injectable()
-export class IgdbSearchService {
+export abstract class IgdbBaseSearchService {
   private _headers: Headers;
 
   constructor(
-    private http: Http) {
+    protected http: Http) {
     this._headers = new Headers();
     this._headers.set('X-Mashape-Key', apiKey)
     this._headers.set('Accept', 'application/json');
@@ -33,9 +33,5 @@ export class IgdbSearchService {
       })
       .filter(response => (response.status === 200 && response.ok))
       .map(response => (<any>response)._body);
-  }
-
-  public search4Games (term: string, limit?: number, offset?: number) {
-    return this.get(`games/?search=${term}&limit=${limit || DEFAULT_LIMIT}&offset=${offset || 0}`);
   }
 }

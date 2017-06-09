@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {CommonModule} from '@angular/common';
 import {SearchBarComponent} from './quick-search/search-bar/search-bar.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { SearchHomeComponent } from './search-home/search-home.component';

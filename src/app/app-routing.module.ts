@@ -4,7 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import {SearchHomeComponent} from './search/search-home/search-home.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/search-bar', pathMatch: 'full' },
+  { path: '', redirectTo: '/search', pathMatch: 'full' },
   { path: 'search',  component: SearchHomeComponent },
   // { path: 'detail/:id', component: HeroDetailComponent },
   // { path: 'heroes',     component: HeroesComponent }
