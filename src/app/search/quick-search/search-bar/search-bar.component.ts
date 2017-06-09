@@ -1,9 +1,10 @@
-import {Component, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {IdNamePair} from '../../models/IdNamePair';
 import {IgdbQuickSearchService} from '../igdb-quick-search-service/igdb-quick-search.service';
 import {FormControl} from '@angular/forms';
 import 'rxjs/Rx';
-import EventEmitter = NodeJS.EventEmitter;
+import {Observable} from 'rxjs';
+// import EventEmitter = NodeJS.EventEmitter;
 
 @Component({
   selector: 'gs-search-bar',
@@ -16,57 +17,51 @@ import EventEmitter = NodeJS.EventEmitter;
 export class SearchBarComponent implements OnInit {
 
   @Output()
-  public fullSearch: EventEmitter;
+  public onFullSearch: EventEmitter<string>;
+
+  public cancelQuickSearch = false;
 
   public searchInput: FormControl;
 
-  public games: IdNamePair[];
-  public companies: IdNamePair[];
-  public franchises: IdNamePair[];
+  public games$: Observable<IdNamePair[]>;
+  public companies$: Observable<IdNamePair[]>;
+  public franchises$: Observable<IdNamePair[]>;
 
   public showQuickResults: boolean;
 
-  public get hideResultsPanel(): boolean {
-    return !(this.games && this.games.length) &&
-      !(this.companies && this.companies.length) &&
-      !(this.franchises && this.franchises.length);
-  }
-
   constructor(private searchService: IgdbQuickSearchService) {
     this.searchInput = new FormControl();
-    this.fullSearch = new EventEmitter();
+    this.onFullSearch = new EventEmitter();
   }
 
   private dispatchAll (val): void {
 
-    this.searchService
-      .search4Games2AutoComplete(val)
-      .subscribe(result => this.games = result);
+    this.games$ = this.searchService
+      .search4Games2AutoComplete(val);
 
-    this.searchService
-      .search4Companies2AutoComplete(val)
-      .subscribe(result => this.companies = result);
+    this.companies$ = this.searchService
+      .search4Companies2AutoComplete(val);
 
-    this.searchService
-      .search4Franchises2AutoComplete(val)
-      .subscribe(result => this.franchises = result);
+    this.franchises$ = this.searchService
+      .search4Franchises2AutoComplete(val);
   }
 
   ngOnInit() {
     this.searchInput
       .valueChanges
+      .do(() => this.cancelQuickSearch  = false)
       .distinctUntilChanged((val1, val2) => val1 === val2)
       .debounceTime(750)
-      // .filter(v => v.length > 2)
+      .filter(v => !this.cancelQuickSearch )
       .subscribe(val => {
-        debugger;
         this.showQuickResults = true;
         this.dispatchAll(val);
       });
   }
 
   public search (eventArgs) {
+    this.cancelQuickSearch = true;
     this.showQuickResults = false;
-    this.fullSearch.emit(this.searchInput.value);
+    this.onFullSearch.emit(this.searchInput.value);
   }
 }
