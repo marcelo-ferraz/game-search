@@ -1,49 +1,38 @@
 export class ArrayUtilities {
+  private static _proto = Array.prototype;
+
+  private static add2Array(name: string, value: Function) {
+    if (ArrayUtilities._proto.hasOwnProperty(name)) {
+      return;
+    }
+
+    Object.defineProperty(ArrayUtilities._proto, name, {
+      configurable: true,
+      enumerable: true,
+      writable: true,
+      value: value
+    });
+  }
 
   private static onlyUnique(value, index, self) {
     return self.indexOf(value) === index;
   }
 
-  private static distinct () {
-    return (<any>this).filter(this.onlyUnique);
-  }
-
-  private static selectMany(selector) {
-    return (<any> this)
-      .map(selector)
-      .reduce(
-        (acc, cur) => acc.concat(cur),
-        []
-      );
-  }
-
   public static addDistinct () {
-    const proto = Array.prototype;
-
-    if (proto.hasOwnProperty('distinct')) {
-      return;
-    }
-
-    Object.defineProperty(proto, 'distinct', {
-      configurable: true,
-      enumerable: true,
-      writable: true,
-      value: ArrayUtilities.distinct
+    this.add2Array('distinct', function  distinct () {
+      return this.filter(ArrayUtilities.onlyUnique);
     });
   }
 
-  public static addFlatten () {
-    const proto = Array.prototype;
-
-    if (proto.hasOwnProperty('selectMany')) {
-      return;
-    }
-
-    Object.defineProperty(proto, 'selectMany', {
-      configurable: true,
-      enumerable: true,
-      writable: true,
-      value: ArrayUtilities.selectMany
+  public static addSelectMany () {
+    this.add2Array('selectMany', function selectMany(selector) {
+      return this
+        .map(selector)
+        .filter(item => item)
+        .reduce(
+          (acc, cur) => acc.concat(cur),
+          []
+        );
     });
   }
 }

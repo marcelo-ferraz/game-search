@@ -3,8 +3,7 @@ import {IdNamePair} from '../../models/IdNamePair';
 import {IgdbQuickSearchService} from '../igdb-quick-search-service/igdb-quick-search.service';
 import {FormControl} from '@angular/forms';
 import 'rxjs/Rx';
-import {Observable} from 'rxjs';
-// import EventEmitter = NodeJS.EventEmitter;
+import {Observable} from 'rxjs/Observable';
 
 @Component({
   selector: 'gs-search-bar',
@@ -19,6 +18,7 @@ export class SearchBarComponent implements OnInit {
   @Output()
   public onFullSearch: EventEmitter<string>;
 
+  public searching = false;
   public cancelQuickSearch = false;
 
   public searchInput: FormControl;
@@ -44,12 +44,19 @@ export class SearchBarComponent implements OnInit {
 
     this.franchises$ = this.searchService
       .search4Franchises2AutoComplete(val);
+
+    this.games$.merge(this.companies$).merge(this.franchises$).subscribe(() => {
+      this.searching = false;
+    });
   }
 
   ngOnInit() {
     this.searchInput
       .valueChanges
-      .do(() => this.cancelQuickSearch  = false)
+      .do(() => {
+        this.cancelQuickSearch  = false;
+        this.searching = true;
+      })
       .distinctUntilChanged((val1, val2) => val1 === val2)
       .debounceTime(750)
       .filter(v => !this.cancelQuickSearch )
@@ -57,9 +64,11 @@ export class SearchBarComponent implements OnInit {
         this.showQuickResults = true;
         this.dispatchAll(val);
       });
+
+    this.onFullSearch.subscribe(() => this.searching = false);
   }
 
-  public search (eventArgs) {
+  public fullSearch () {
     this.cancelQuickSearch = true;
     this.showQuickResults = false;
     this.onFullSearch.emit(this.searchInput.value);

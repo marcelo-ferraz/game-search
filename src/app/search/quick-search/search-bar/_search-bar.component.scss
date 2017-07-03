@@ -1,9 +1,28 @@
 .gs_found-games {
+
+  display: block;
+  position: relative;
+
   ul, li {
     list-style: none;
   }
   img {
     height: 45px;
     width: 45px;
+  }
+}
+
+.gs_quick-search__content {
+  margin-top: -2.5rem;
+  position: absolute;
+  z-index: 99;
+}
+
+.gs-search-bar__input {
+  margin-bottom: 0;
+
+  .progress {
+    padding-top: 0;
+    top: -30px;
   }
 }

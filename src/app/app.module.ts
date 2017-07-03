@@ -4,14 +4,13 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
-import { TopBarComponent } from './top-bar/top-bar.component';
 import {AppRoutingModule} from './app-routing.module';
 import {SearchModule} from './search/search.module';
+import {ArrayUtilities} from './utilities/array.utilities';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    TopBarComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
@@ -23,4 +22,9 @@ import {SearchModule} from './search/search.module';
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+  constructor () {
+    ArrayUtilities.addSelectMany();
+    ArrayUtilities.addDistinct();
+  }
+}

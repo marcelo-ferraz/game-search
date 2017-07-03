@@ -1,0 +1,22 @@
+<div class="card" style="overflow: hidden;">
+  <div class="card-image waves-effect waves-block waves-light">
+    <img #img class="activator" [src]="game.cover?.url">
+    <div class="card-panel gs__search-game-card__more-info">
+      <div class="row">
+        <span class="card-title grey-text text-darken-4">Summary</span>
+        <p>{{ game.summary | slice:0:197 }} {{ game.summary?.length > 196 ? '...' : '' }}</p>
+      </div>
+      <div  class="card-action">
+          <a class="btn btn-floating pulse left" (click)="selectToSearchOnTrademe()"><i class="material-icons">store</i></a>
+          <a class="btn btn-floating pulse right"><i class="material-icons">pageview</i></a>
+      </div>
+    </div>
+  </div>
+  <div class="card-content">
+    <span class="card-title activator grey-text text-darken-4">{{game.name}}</span>
+  </div>
+
+  <div class="card-action">
+    <span *ngFor="let genre of game.genres" class="chip teal lighten-2 white-text text-darken-2">{{ genre.name }}</span>
+  </div>
+</div>

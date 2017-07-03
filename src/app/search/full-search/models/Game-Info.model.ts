@@ -1,6 +1,6 @@
 export class GameInfo {
   public id: number;
-  public name;
+  public name: string;
   public summary;
   public category;
   public genres;

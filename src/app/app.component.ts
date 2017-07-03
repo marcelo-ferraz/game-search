@@ -7,7 +7,4 @@ import {ArrayUtilities} from './utilities/array.utilities';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  constructor() {
-    ArrayUtilities.addFlatten();
-  }
 }

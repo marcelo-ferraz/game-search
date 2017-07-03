@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit } from '@angular/core';
 import {IgdbFullSearchService} from '../full-search/igdb-full-search/igdb-full-search.service';
 import {GameInfo} from '../full-search/models/Game-Info.model';
 
@@ -26,5 +26,9 @@ export class SearchHomeComponent implements OnInit {
        .subscribe(games => {
          this.games = games;
        });
+  }
+
+  public gameSelected(selected) {
+    // todo: add a call to trademe
   }
 }

@@ -6,6 +6,7 @@ import { SearchHomeComponent } from './search-home/search-home.component';
 import {RouterModule} from '@angular/router';
 import {SharedFeaturesModule} from '../shared-features.module';
 import { SearchBarPanelComponent } from './quick-search/search-bar-panel/search-bar-panel.component';
+import {SearchGameCardComponent} from './search-game-card/search-game-card.component';
 
 @NgModule({
   imports: [
@@ -18,6 +19,7 @@ import { SearchBarPanelComponent } from './quick-search/search-bar-panel/search-
   declarations: [
     SearchBarComponent,
     SearchHomeComponent,
+    SearchGameCardComponent,
     SearchBarPanelComponent
   ]
 })

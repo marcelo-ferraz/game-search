@@ -1,9 +1,12 @@
 <div>
-  <div class="row">
-    <input type="text" [formControl]="searchInput" (keyup.enter)="search($event)"/>
+  <div class="row gs-search-bar__input">
+    <input type="text" [formControl]="searchInput" (keyup.enter)="fullSearch()"/>
+    <div class="progress">
+      <div [class.indeterminate]="searching" ></div>
+    </div>
   </div>
 
-  <div [hidden]="!showQuickResults" [ngClass]="['col s12', 'row', 'card']" style="margin-top: -2.5rem;">
+  <div [hidden]="!showQuickResults" class="col s12 row card gs_quick-search__content">
 
     <gs-search-bar-panel
       *ngIf="games$ | async as games"
